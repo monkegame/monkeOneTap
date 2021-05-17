@@ -1,0 +1,10 @@
+name: monkebotplugin
+main: online.monkegame.monkebotplugin2.pluginClass
+version: 0.0.5
+author: Mrs_Herobrine_
+commands:
+   playerkills:
+      description: Shows the total player kills
+      usage: /playerkills
+      permission: monkebotplugin.killlist
+      permission-message: haha you don't have permission nerd!!!
