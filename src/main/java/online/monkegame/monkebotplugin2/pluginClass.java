@@ -7,6 +7,7 @@ import java.sql.*;
 import java.util.UUID;
 
 
+
 /*
  * made by monkegame team
  * Mrs_Herobrine_
@@ -25,10 +26,13 @@ public final class pluginClass extends JavaPlugin{
 		getLogger().info("Thanks for using/enabling monkebotplugin!");
     }
 	
+	
 	@Override
+	@SuppressWarnings("deprecation")
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("playerkills")) {
 			getLogger().info("Getting info...");
+			Bukkit.getServer().broadcastMessage("[monkebot] UPDATING THE DATABASE EXPECT SOME LAG");
 			for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
 				playerkills = player.getStatistic(Statistic.PLAYER_KILLS);
 				killslog = Integer.toString(playerkills);
@@ -38,19 +42,15 @@ public final class pluginClass extends JavaPlugin{
 				
 			        // SQLite connection string
 			        String url = "jdbc:sqlite:D://databases/kills.db";
-			        //INSERT OR UPDATE INTO
 			        // SQL statement for creating a new table
 			        String sql = "INSERT OR REPLACE INTO kills (uuid, username, killcount)\n"
 			        		+ "VALUES ('" + playerUuid + "','" + playerName + "','" + playerkills  + "');";
-			        		/*+ "ON CONFLICT(" + playerUuid +", " + playerName + ") DO UPDATE SET " + playerUuid + "=excluded." + playerUuid +";"; */
-			        
-			        try (Connection conn = DriverManager.getConnection(url);
-			                Statement stmt = conn.createStatement()) {
-			            // create a new table
-			            	stmt.execute(sql);
-			        } catch (SQLException e) {
-			            System.out.println(e.getMessage());
-			        }
+			            	try (Connection conn = DriverManager.getConnection(url);
+					                Statement stmt = conn.createStatement()) {
+					            	stmt.execute(sql);
+					        } catch (SQLException e) {
+					            System.out.println(e.getMessage());
+					        }
 			    } return true;
 		} else {
 			return false; 

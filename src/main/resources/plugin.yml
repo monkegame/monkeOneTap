@@ -1,7 +1,8 @@
 name: monkebotplugin
 main: online.monkegame.monkebotplugin2.pluginClass
-version: 0.0.5
+version: 0.2.3
 author: Mrs_Herobrine_
+api-version: 1.16
 commands:
    playerkills:
       description: Shows the total player kills
