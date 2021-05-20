@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>online.monkegame</groupId>
   <artifactId>monkebotplugin</artifactId>
-  <version>0.2.3</version>
+  <version>0.3.2</version>
   <name>monkebotplugin</name>
   <description>plugin so the monkebot can interact with the serer</description>
 	

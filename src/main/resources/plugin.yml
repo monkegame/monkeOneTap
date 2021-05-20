@@ -1,6 +1,6 @@
 name: monkebotplugin
 main: online.monkegame.monkebotplugin2.pluginClass
-version: 0.2.3
+version: 0.3.2
 author: Mrs_Herobrine_
 api-version: 1.16
 commands:
