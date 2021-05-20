@@ -10,4 +10,5 @@ requires you have an sqlite database as i'm too lazy to implement mysql (get ez 
 * a little bit of masochism
 
 # how to use
-in the config.yml, set your database location like: D://databases/database.db
+in the ``config.yml``, set your dblocation like: D://databases/database.db
+the dbupdaterate is in seconds, default is 10 minutes
