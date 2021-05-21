@@ -4,7 +4,7 @@ requires you have an sqlite database as i'm too lazy to implement mysql (get ez 
 
 # dependencies
 * papermc api
-* maven 
+* gradle 
 * jdk >= 15.0.2
 * sqlite
 * a little bit of masochism
