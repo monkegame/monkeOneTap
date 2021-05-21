@@ -1,8 +1,9 @@
 package online.monkegame.monkebotplugin2;
 
+
+
 import org.bukkit.plugin.java.*;
 import org.bukkit.*;
-import org.bukkit.configuration.*;
 import org.bukkit.scheduler.*;
 import java.sql.*;
 import java.util.UUID;
@@ -12,7 +13,8 @@ import java.util.UUID;
 /*
  * made by monkegame team
  * Mrs_Herobrine_
- * contact here: mrsherobrinenaomi@gmail.com, mrsherobrine (naomi)#6263
+ * contact here: mrsherobrinenaomi@gmail.com
+ * discord: mrsherobrine (naomi)#6263
  * play.monkegame.online
  */
 
@@ -28,6 +30,7 @@ public final class pluginClass extends JavaPlugin{
     public void onEnable() {
 		this.saveDefaultConfig();
 		
+		final long updateRate = (this.getConfig().getLong("db.dbupdaterate")*20);
 		final String databaseLocation = this.getConfig().getString("db.dblocation");
 		final String databaseTable = this.getConfig().getString("db.dbtable");
 		
@@ -44,13 +47,15 @@ public final class pluginClass extends JavaPlugin{
 				killslog = Integer.toString(playerkills);
 				String playerName = player.getName();
 				UUID playerUuid = player.getUniqueId();
-				getLogger().info(playerName + " has " + killslog + " kills.");
 				
 			        // SQLite connection string
 			        String url = "jdbc:sqlite:" + databaseLocation;
 			        // SQL statement for updating the table
-			        String sql = "INSERT OR REPLACE INTO " + databaseTable + " (uuid, username, killcount)\n"
-			        		+ "VALUES ('" + playerUuid + "','" + playerName + "','" + playerkills  + "');";
+			        String sql = "INSERT INTO " + databaseTable + " (uuid, username, killcount)\n"
+			        		+ "VALUES ('" + playerUuid + "','" + playerName + "','" + playerkills  + "')" 
+			        		+ "ON CONFLICT(uuid) DO UPDATE SET "
+			        		+ "username=excluded.username, "
+			        		+ "killcount=excluded.killcount;";
 			            	try (Connection conn = DriverManager.getConnection(url);
 					                Statement stmt = conn.createStatement()) {
 					            	stmt.execute(sql);
@@ -59,7 +64,7 @@ public final class pluginClass extends JavaPlugin{
 					        }
 			    }
 			}
-		}, 0L, 24000L );
+		}, 0L, updateRate );
 	}
 
 	@Override

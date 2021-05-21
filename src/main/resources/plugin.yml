@@ -1,11 +1,5 @@
 name: monkebotplugin
 main: online.monkegame.monkebotplugin2.pluginClass
-version: 0.3.2
+version: 0.4.0
 author: Mrs_Herobrine_
 api-version: 1.16
-commands:
-   playerkills:
-      description: Shows the total player kills
-      usage: /playerkills
-      permission: monkebotplugin.killlist
-      permission-message: haha you don't have permission nerd!!!
