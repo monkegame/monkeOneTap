@@ -1,0 +1,5 @@
+name: monkebotplugin
+main: online.monkegame.monkebotplugin2.pluginClass
+version: 0.5
+author: Mrs_Herobrine_
+api-version: 1.16
