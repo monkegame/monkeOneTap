@@ -3,3 +3,6 @@ db:
     dblocation: null
     dbtable: null
     dbupdaterate: 600
+onetapper:
+    item: STICK
+    name: Stupid Stick
