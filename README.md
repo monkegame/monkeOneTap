@@ -1,13 +1,14 @@
-# monkebotplugin
-minecraft plugin for the [monkebot]("https://github.com/mrsherobrine/monkebot")
+# monkeOneTap
+minecraft plugin for the [monkegame server]("https://monkegame.online")
 
-requires you have an sqlite database as i'm too lazy to implement mysql (get ez gged on)
+requires you have an sqlite database (for now) as i'm too lazy to implement mysql (get ez gged on)
 
 # dependencies
 * java >= 15.0.2
 * sqlite database
 * a little bit of masochism
 * a database viewer (optional but handy)
+* a papermc server (no i won't port it to spigot, paper has so much more API)
 
 # how to use
 in the ``config.yml``, set your dblocation like: D://databases/database.db
