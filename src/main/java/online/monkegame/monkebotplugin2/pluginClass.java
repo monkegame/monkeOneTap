@@ -1,6 +1,9 @@
 package online.monkegame.monkebotplugin2;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.format.TextColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
@@ -36,57 +39,75 @@ import java.util.UUID;
 public final class pluginClass extends JavaPlugin implements Listener {
 
 	public int playerkills;
+	final TextComponent updateMessage = Component.text()
+			.content("[monkebot] ")
+			.color(TextColor.color(0x4bcc7f))
+			.append(Component.text("UPDATING THE DATABASE! EXPECT SOME LAG!")).color(TextColor.color(0xa61111))
+			.build();
+	final TextComponent updatedMessage = Component.text()
+			.content("[monkebot] ")
+			.color(TextColor.color(0x4bcc7f))
+			.append(Component.text("Database updated!")).color(TextColor.color(0xbaffe6))
+			.build();
+	public long updateRate;
+	public String databaseLocation;
+	public String databaseTable;
 
 	@Override
 	public void onEnable() {
 		this.saveDefaultConfig();
-
-		final long updateRate = (this.getConfig().getLong("db.dbupdaterate") * 20);
-		final String databaseLocation = this.getConfig().getString("db.dblocation");
-		final String databaseTable = this.getConfig().getString("db.dbtable");
+		updateRate = (this.getConfig().getLong("db.dbupdaterate") * 20);
+		databaseLocation = this.getConfig().getString("db.dblocation");
+		databaseTable = this.getConfig().getString("db.dbtable");
 		if (databaseLocation == null) {
-			getLogger().info("You haven't linked your database!");
+			getLogger().info("You haven't linked your database! Please do so!");
 		} else if (databaseTable == null) {
-			getLogger().info("No table found!");
+			getLogger().info("No table found! Have you checked your database?");
 		} else {
-			getServer().getPluginManager().registerEvents(this, this);
-			getLogger().info("Thanks for using/enabling monkebotplugin!");
-			BukkitScheduler scheduler = getServer().getScheduler();
-			scheduler.scheduleSyncRepeatingTask(this, () -> {
-				long startTime = System.currentTimeMillis();
-				getLogger().info("Getting info...");
-				Bukkit.getServer().broadcast(Component.text("[monkebot] UPDATING THE DATABASE EXPECT SOME LAG"), "*.*");
-				for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
-					playerkills = player.getStatistic(Statistic.PLAYER_KILLS);
-					String playerName = player.getName();
-					UUID playerUuid = player.getUniqueId();
-
-					// SQLite connection string
-					String url = "jdbc:sqlite:" + databaseLocation;
-					// SQL statement for updating the table
-					String sql = "INSERT INTO " + databaseTable + " (uuid, username, killcount)\n"
-							+ "VALUES ('" + playerUuid + "','" + playerName + "','" + playerkills + "')"
-							+ "ON CONFLICT(uuid) DO UPDATE SET "
-							+ "username=excluded.username, "
-							+ "killcount=excluded.killcount;";
-					try (Connection conn = DriverManager.getConnection(url);
-						 Statement stmt = conn.createStatement()) {
-						stmt.execute(sql);
-					} catch (SQLException e) {
-						System.out.println(e.getMessage());
-						System.out.println("have you configured your database correctly?");
-					}
-				}
-				long endTime = System.currentTimeMillis();
-				Bukkit.getServer().broadcast(Component.text("[monkebot] database updated"), "*.*");
-				getLogger().info("database updated! took " + (endTime - startTime) + " ms");
-			}, 0L, updateRate);
+			Main();
 		}
 	}
 
+	public void Main() {
+		getServer().getPluginManager().registerEvents(this, this);
+		getLogger().info("Database found! Updates will now be made.");
+		BukkitScheduler scheduler = getServer().getScheduler();
+		scheduler.scheduleSyncRepeatingTask(this, () -> {
+			long startTime = System.currentTimeMillis();
+			getLogger().info("Getting info...");
+			Bukkit.getServer().broadcast(updateMessage, "*.*");
+			for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
+				playerkills = player.getStatistic(Statistic.PLAYER_KILLS);
+				String playerName = player.getName();
+				UUID playerUuid = player.getUniqueId();
+
+				// SQLite connection string
+				String url = "jdbc:sqlite:" + databaseLocation;
+				// SQL statement for updating the table
+				String sql = "INSERT INTO " + databaseTable + " (uuid, username, killcount)\n"
+						+ "VALUES ('" + playerUuid + "','" + playerName + "','" + playerkills + "')"
+						+ "ON CONFLICT(uuid) DO UPDATE SET "
+						+ "username=excluded.username, "
+						+ "killcount=excluded.killcount;";
+				try (Connection conn = DriverManager.getConnection(url);
+					 Statement stmt = conn.createStatement()) {
+					stmt.execute(sql);
+				} catch (SQLException e) {
+					System.out.println(e.getMessage());
+					System.out.println("have you configured your database correctly?");
+				}
+			}
+			long endTime = System.currentTimeMillis();
+			Bukkit.getServer().broadcast(updatedMessage, "*.*");
+			getLogger().info("database updated! took " + (endTime - startTime) + " ms");
+		}, 0L, updateRate);
+	}
+
+
+
 	@Override
 	public void onDisable() {
-		getLogger().info("[monkebot] database will no longer update periodically");
+		getLogger().info("database will no longer update periodically");
 	}
 
 	@EventHandler

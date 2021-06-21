@@ -24,13 +24,14 @@ repositories {
 
 dependencies {
     compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
-    compileOnly 'org.xerial:sqlite-jdbc:3.34.0'
+    implementation 'org.xerial:sqlite-jdbc:3.34.0'
 }
 
+archivesBaseName = 'monkeOneTap'
 group = 'online.monkegame'
-version = '0.4.0'
-description = 'monkebotplugin'
-java.sourceCompatibility = JavaVersion.VERSION_15
+version = '0.6.0'
+description = "the monkegame server's onetap plugin"
+java.sourceCompatibility = JavaVersion.VERSION_16
 
 publishing {
     publications {

@@ -1,5 +1,5 @@
-name: monkebotplugin
+name: monkeOneTap
 main: online.monkegame.monkebotplugin2.pluginClass
-version: 0.5.2
+version: 0.6.0
 author: Mrs_Herobrine_
 api-version: 1.16
