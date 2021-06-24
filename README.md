@@ -1,14 +1,16 @@
 # monkeOneTap
 minecraft plugin for the [monkegame server]("https://monkegame.online")
 
-requires you have an sqlite database (for now) as i'm too lazy to implement mysql (get ez gged on)
+this plugin is made to our needs so we won't be adding new features unless we *really* need to
+
+requires you have an sqlite database
 
 # dependencies
-* java >= 15.0.2
+* java >= 16
 * sqlite database
 * a little bit of masochism
 * a database viewer (optional but handy)
-* a papermc server (no i won't port it to spigot, paper has so much more API)
+* a paper server
 
 # how to use
 in the ``config.yml``, set your dblocation like: D://databases/database.db
