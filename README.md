@@ -27,5 +27,4 @@ specify your database location and table in the config.yml
 
 
 # todo
-- [ ] autocreate database on first run
 - [ ] add a table to said database to log last access
