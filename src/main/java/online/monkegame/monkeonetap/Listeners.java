@@ -56,9 +56,9 @@ public class Listeners implements Listener {
             meta.addEnchant(Enchantment.DAMAGE_ALL, 1000, true);
             tapper.setItemMeta(meta);
             inv.setItem(0, tapper);
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) updateRate, 3, false, false));
-            p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, (int) updateRate, 0, false, false));
         }, 10L);
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) updateRate, 3, false, false));
+        p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, (int) updateRate, 0, false, false));
     }
 
     @EventHandler
@@ -77,7 +77,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent revt) {
         Player p = revt.getPlayer();
-        scheduler.runTaskLaterAsynchronously(plugin, ()-> {
+        scheduler.scheduleSyncDelayedTask(plugin, ()-> {
             p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 9999, 3, false, false));
             p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 9999, 0, false, false));
         }, 5L);

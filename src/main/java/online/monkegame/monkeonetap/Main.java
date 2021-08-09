@@ -62,8 +62,9 @@ public final class Main extends JavaPlugin {
 	public UUID playerUuid;
 
 	public void main() {
-		String sql = "INSERT INTO " + databaseTable + " (uuid, username, killcount)\n"
-				+ "VALUES ('" + playerUuid + "','" + playerName + "','" + playerKills + "')"
+
+		String sql = "INSERT INTO " + databaseTable + " (uuid, username, killcount) "
+				+ "VALUES ('" + playerUuid + "','" + playerName + "','" + playerKills + "') "
 				+ "ON CONFLICT(uuid) DO UPDATE SET "
 				+ "username=excluded.username, "
 				+ "killcount=excluded.killcount;";
@@ -78,6 +79,7 @@ public final class Main extends JavaPlugin {
 				playerKills = player.getStatistic(Statistic.PLAYER_KILLS);
 				playerName = player.getName();
 				playerUuid = player.getUniqueId();
+
 				scheduler.runTaskAsynchronously(this, ()-> {
 					try (Connection conn = DriverManager.getConnection(url);
 						 Statement stmt = conn.createStatement()) {
