@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+        url = uri('https://papermc.io/repo/repository/maven-public/')
+        url = uri('https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc')
+    }
+}
+
+dependencies {
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    implementation 'org.xerial:sqlite-jdbc:3.34.0'
+}
+
+archivesBaseName = 'monkeOneTap'
+group = 'online.monkegame'
+version = '0.7.2'
+description = "the monkegame server's onetap plugin"
+java.sourceCompatibility = JavaVersion.VERSION_16
+
