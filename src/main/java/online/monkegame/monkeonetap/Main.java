@@ -6,6 +6,7 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Statistic;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitScheduler;
 
@@ -73,7 +74,7 @@ public final class Main extends JavaPlugin {
 			Bukkit.broadcast(updateMessage, "*.*");
 			long startTime = System.currentTimeMillis();
 
-			for (OfflinePlayer player : Bukkit.getServer().getOfflinePlayers()) {
+			for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 				playerKills = player.getStatistic(Statistic.PLAYER_KILLS);
 				playerName = player.getName();
 				playerUuid = player.getUniqueId();

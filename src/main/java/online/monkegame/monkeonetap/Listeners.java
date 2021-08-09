@@ -2,6 +2,7 @@ package online.monkegame.monkeonetap;
 
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,6 +32,7 @@ public class Listeners implements Listener {
     public String tappingItem;
     public String tappingItemName;
     public long updateRate;
+    BukkitScheduler scheduler = Bukkit.getScheduler();
 
     public Listeners(Main main, Logger logger, String tappingItem, String tappingItemName, long dbUpdate) {
         this.plugin = main;
@@ -45,11 +47,6 @@ public class Listeners implements Listener {
     public void onJoin(PlayerJoinEvent evt) {
         final Player p = evt.getPlayer();
         evt.joinMessage(Component.text(p.getName() + " has joined the battle!"));
-        PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, (int) updateRate, 3, false, false);
-        PotionEffect saturation = new PotionEffect(PotionEffectType.SATURATION, (int) updateRate, 0, false, false);
-        p.addPotionEffect(speed);
-        p.addPotionEffect(saturation);
-        BukkitScheduler scheduler = Bukkit.getScheduler();
         scheduler.runTaskLaterAsynchronously(plugin, () -> {
             PlayerInventory inv = p.getInventory();
             ItemStack tapper = new ItemStack(Material.valueOf(tappingItem));
@@ -59,6 +56,8 @@ public class Listeners implements Listener {
             meta.addEnchant(Enchantment.DAMAGE_ALL, 1000, true);
             tapper.setItemMeta(meta);
             inv.setItem(0, tapper);
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, (int) updateRate, 3, false, false));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, (int) updateRate, 0, false, false));
         }, 10L);
     }
 
@@ -77,17 +76,23 @@ public class Listeners implements Listener {
 
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent revt) {
-        PotionEffect speed = new PotionEffect(PotionEffectType.SPEED, (int) updateRate, 3, false, false);
-        PotionEffect saturation = new PotionEffect(PotionEffectType.SATURATION, (int) updateRate, 0, false, false);
-        revt.getPlayer().addPotionEffect(speed);
-        revt.getPlayer().addPotionEffect(saturation);
+        Player p = revt.getPlayer();
+        scheduler.runTaskLaterAsynchronously(plugin, ()-> {
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 9999, 3, false, false));
+            p.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, 9999, 0, false, false));
+        }, 5L);
     }
 
     @EventHandler
     public void setExp(PlayerDeathEvent devt) {
-        Player epic = devt.getEntity().getKiller();
-        float playerkills = epic.getStatistic(Statistic.PLAYER_KILLS);
-        epic.setExp(playerkills);
+        if (devt.getEntity().getKiller() != null) {
+            devt.getEntity().getKiller().setLevel(devt.getEntity().getKiller().getStatistic(Statistic.PLAYER_KILLS));
+            devt.deathMessage(
+                    Component.text(devt.getEntity().getKiller().getName(), NamedTextColor.RED)
+                    .append(Component.text(">>", NamedTextColor.WHITE, TextDecoration.BOLD))
+                    .append(Component.text(devt.getEntity().getName(), NamedTextColor.DARK_RED)).decoration(TextDecoration.BOLD, false)
+            );
+        }
     }
 
 }
