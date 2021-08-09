@@ -1,5 +1,0 @@
-# dblocation like D://folder/yourdb.db, dbupdaterate is in seconds
-db:
-    dblocation: null
-    dbtable: null
-    dbupdaterate: 600
