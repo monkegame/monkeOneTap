@@ -24,7 +24,3 @@ name is whatever you want it to be
 # how to setup
 
 specify your database location and table in the config.yml. if it spams your console with sqlite errors, you did it wrong.
-
-
-# todo
-- [ ] make plugin add a table to said database to log last access
